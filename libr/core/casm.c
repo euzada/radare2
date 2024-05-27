@@ -211,16 +211,20 @@ R_API RList *r_core_asm_strsearch(RCore *core, const char *input, ut64 from, ut6
 			if (matches && tokens[matchcount]) {
 				if (mode == 'a') { // check for case sensitive
 					matches = !r_str_ncasecmp (opst, tokens[matchcount], strlen (tokens[matchcount]));
+					eprintf("matches0\n");
 				} else if (!regexp) {
 					const char *curtok = tokens[matchcount];
 					if (strchr (curtok, '$') || strchr (curtok, '*') || strchr (curtok, '^')) {
 						matches = r_str_glob (opst, curtok);
+						eprintf("matches1\n");
 					} else {
 						matches = !!strstr (opst, tokens[matchcount]);
+						eprintf("matches2\n");
 					}
 				} else {
 					rx = r_regex_new (tokens[matchcount], "es");
 					matches = r_regex_exec (rx, opst, 0, 0, 0) == 0;
+					eprintf("matches3\n");
 					r_regex_free (rx);
 				}
 			}
